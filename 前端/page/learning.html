@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>图论大作业--豆瓣数据分析</title>
+    <link rel="stylesheet" href="src/layui-v2.3.0/layui/css/layui.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body class="layui-layout-body">
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">豆瓣数据分析</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="explain1.html">可视化显示说明</a></li>
+                <li class="layui-nav-item"><a href="explain2.html">基础算法集说明</a></li>
+                <li class="layui-nav-item"><a href="explain3.html">扩展算法集说明</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item"><a href="">重置</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">建图方式</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="force graph show1.html">电影为节点</a></dd>
+                            <dd><a href="force graph show2.html">影评人为节点</a></dd>
+                            <dd><a href="force graph show2.html">电影节点最小生成树</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">算法集</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="shortest path.html">最短路径</a></dd>
+                            <dd><a href="related.html">最小生成树</a></dd>
+                            <dd><a href="recommand.html">相似推荐</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="learning.html">评分算法思路简介</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" , lay-filter="graph">
+            <!-- 内容主体区域 -->
+            <!-- 卡片式布局 -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>通过对用户加权评估，实现电影的评分算法，实现如下：</legend>
+            </fieldset>
+
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">初始化</div>
+                            <div class="layui-card-body">
+                                设置每个人的初始权值为1.0，计算其加权平均值作为初始总体评价
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">循环</div>
+                            <div class="layui-card-body">
+                                根据个人评价与总体评价之间的差值，对每个人的评价权值作出相应修改<br>
+                                重新计算总体评价，直至收敛，将收敛结果作为最终评分
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">算法分析</div>
+                            <div class="layui-card-body">
+                                <p>由于缺少TensorFlow框架及其他知识，并未付诸实践，但具有一定可行性</p>
+                                <p>通过加权权值的学习，使得评分系统能够尽量削弱不合理、不专业评价对真实评价的影响，从而取代传统的直接取均值或删极端数据算法</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © 小组：王阳，骆炳君--基于layui以及d3.js
+        </div>
+    </div>
+
+    <script src="src/layui-v2.3.0/layui/layui.js"></script>
+    <script type="text/javascript">
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+    </script>
+
+</body>
+</html>

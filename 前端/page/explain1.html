@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>图论大作业--豆瓣数据分析</title>
+    <link rel="stylesheet" href="src/layui-v2.3.0/layui/css/layui.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body class="layui-layout-body">
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">豆瓣数据分析</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="explain1.html">可视化显示说明</a></li>
+                <li class="layui-nav-item"><a href="explain2.html">基础算法集说明</a></li>
+                <li class="layui-nav-item"><a href="explain3.html">扩展算法集说明</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item"><a href="">重置</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">建图方式</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="force graph show1.html">电影为节点</a></dd>
+                            <dd><a href="force graph show2.html">影评人为节点</a></dd>
+                            <dd><a href="force graph show2.html">电影节点最小生成树</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">算法集</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="shortest path.html">最短路</a></dd>
+                            <dd><a href="related.html">最小生成树</a></dd>
+                            <dd><a href="recommand.html">相似推荐</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="learning.html">评分算法思路简介</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" , lay-filter="graph">
+            <!-- 内容主体区域 -->
+            <!-- 卡片式布局 -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>可视化显示说明</legend>
+            </fieldset>
+            <div class="layui-collapse" lay-filter="test">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">实现可视化的方式？</h2>
+                    <div class="layui-colla-content">
+                        <p>三种建图方式（以电影为节点、相似建边；以人为节点、相似建边；以电影为节点图上的最小生成树）均采用力导向图的显示模式</p>
+                        <p></p>
+                        <p>使用的扩展包是d3.js以及layui.js，通过两个扩展包，实现了数据及操作的可视化</p>
+                        <p></p>
+                        <p>制成的图表支持交互操作，用户可以在图上拖拽节点、鼠标悬停来查看节点的详细信息</p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">建图的具体方法？</h2>
+                    <div class="layui-colla-content">
+                        <p>电影为节点,边权确定方式如下：1.若电影类型不同或评价差距太大则无边，否则通过类型及评分相似度赋予初权值；2.若其他因素(主演、导演等)相同，则适当增加原权值</p>
+                        <p></p>
+                        <p>以人为节点、相似建边确定方式如下：1.若电影类型不同或评价差距太大则无边，否则通过类型及评分相似度赋予初权值；2.若其他因素(主演、导演等)相同，则适当增加原权值</p>
+                        <p></p>
+                        <p>由相似度建边时，我们通过算法维护边权为0~1之间的实数，用以衡量相似程度，同时路径的计算方式转化为边权相乘</p>
+                        <p></p>
+                        <p>基于第一种建边方式的变形最小生成树：由于图十分稠密，考虑采用prim算法生成最小生成树</p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">建模优势？</h2>
+                    <div class="layui-colla-content">
+                        <p>通过合理建模以及适当调参，数据处理较为方便，最相似路径算法可以通过较容易的广搜来实现</p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">可视化优化及注意事项？</h2>
+                    <div class="layui-colla-content">
+                        <p>界面美观，主页进行操作说明</p>
+                        <p>优化了力导向图的显示，通过判断衰减系数的值大小，减少渲染次数、加快收敛速度</p>
+                        <p></p>
+                        <p>由于未配置服务器，注意使用时需在调试模式下进行，即通过集成开发环境如vs2017打开，在环境中通过右击鼠标选择在浏览器中打开，即可正常运行</p>
+                        <p>否则会由于浏览器的保护机制，禁止调用本地文件而无法读取数据，进而无法进行算法及可视化显示</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © 小组：王阳，骆炳君--基于layui以及d3.js
+        </div>
+    </div>
+
+    <script src="src/layui-v2.3.0/layui/layui.js"></script>
+    <script type="text/javascript">
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+    </script>
+
+</body>
+</html>

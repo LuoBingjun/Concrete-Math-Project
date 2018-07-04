@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>图论大作业--豆瓣数据分析</title>
+    <link rel="stylesheet" href="page/src/layui-v2.3.0/layui/css/layui.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body class="layui-layout-body">
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">豆瓣数据分析</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="page/explain1.html">可视化显示说明</a></li>
+                <li class="layui-nav-item"><a href="page/explain2.html">基础算法集说明</a></li>
+                <li class="layui-nav-item"><a href="page/explain3.html">扩展算法集说明</a></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item"><a href="">重置</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">建图方式</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="page/force graph show1.html">电影为节点</a></dd>
+                            <dd><a href="page/force graph show2.html">影评人为节点</a></dd>
+                            <dd><a href="page/force graph show2.html">电影节点最小生成树</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">算法集</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="page/shortest path.html">最短路径</a></dd>
+                            <dd><a href="page/related.html">最小生成树</a></dd>
+                            <dd><a href="page/recommand.html">相似推荐</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="page/learning.html">评分算法思路简介</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" , lay-filter="graph">
+            <!-- 内容主体区域 -->
+            <!-- 卡片式布局 -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>操作说明</legend>
+            </fieldset>
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">头部水平导航</div>
+                            <div class="layui-card-body">
+                                通过点击相应的分类<br>
+                                查看相应的作业部分的说明文档<br>
+                                例如点击可视化显示说明，可以查看相应的可视化工作说明
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">左侧垂直导航</div>
+                            <div class="layui-card-body">
+                                通过点击相应的事件按钮<br>
+                                查看相应的可视化结果或是使用相应的算法<br>
+                                例如点击 建图方式->电影为节点，可查看电影建图结果
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">主显示区域</div>
+                            <div class="layui-card-body">
+                                本区域用来进行对应内容的显示操作<br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">工作总结</div>
+                            <div class="layui-card-body">
+                                三种建图方式<br>
+                                可视化<br>
+                                变形最短路<br>
+                                变形最小生成树<br>
+                                最相似路径<br>
+                                相似推荐<br>
+                                评分算法设想<br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © 小组：王阳，骆炳君--基于layui以及d3.js
+        </div>
+    </div>
+
+    <script src="page/src/layui-v2.3.0/layui/layui.js"></script>
+    <script type="text/javascript">
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+    </script>
+
+</body>
+</html>
