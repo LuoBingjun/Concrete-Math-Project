@@ -57,35 +57,37 @@
         <div class="layui-body" , lay-filter="graph">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>输入框</legend>
+                <legend>说明</legend>
             </fieldset>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">中心节点ID</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="start" lay-verify="title" autocomplete="off" placeholder="请输入正确ID" class="layui-input">
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                   
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">展示案例</div>
+                            <div class="layui-card-body">
+                                由于节点数量问题，通过选取两组子集进行了展示，其中节点大小根据中心度产生
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">最大搜索层数</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="end" lay-verify="title" autocomplete="off" placeholder="请输入正确ID" class="layui-input">
-                    </div>
-                </div>             
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="show">显示</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                    </div>
-                </div>
-            </form>
+            </div>
 
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>建图效果</legend>
+                <legend>子集建图效果一</legend>
             </fieldset>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <iframe src="force graph2.html" scrolling="no" width="1200" height="600" frameborder="0" name="showpage"></iframe>
+
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>子集建图效果二</legend>
+            </fieldset>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe src="force graph2 - 2.html" scrolling="no" width="1200" height="600" frameborder="0" name="showpage"></iframe>
 
                 </div>
             </div>
@@ -103,21 +105,7 @@
         layui.use(['element', 'form'], function () {
             var element = layui.element;
             var form = layui.form;
-            //监听提交
-            form.on('submit(show)', function (data) {
-
-                //数据初始化
-
-                var ID = parseInt(data.field.start);    //中心节点，数字ID
-                var height = parseInt(data.field.end);       //搜索层数，数字ID
-
-                //================================================
-                //在这里调用你的脚本，或添加算法运行代码，可以通过layer.alert()函数输出结果查看
-               
-
-                //================================================
-                //刷新子页面
-                $(".clildFrame .layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload(true);
+           
             });
 
         });
