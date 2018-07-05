@@ -110,7 +110,7 @@
                 async function run(varID, vartype, varnum) {
                     // Inside a function marked 'async' we can use the 'await' keyword.
                     var n = await eel.recommand(varID, vartype, varnum)();    // Must prefix call with 'await', otherwise it's the same syntax
-                    layer.alert("最大关联度和对应路径分别为" + n, {
+                    layer.alert("推荐结果为" + n, {
                         title: '最终运算结果'  //弹出层标题
                     })
                 }
