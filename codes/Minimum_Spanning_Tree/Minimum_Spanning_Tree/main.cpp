@@ -55,9 +55,32 @@ int main()
 		used.insert(q[maxe]);
 		max = max + r[maxe];
 	}
+	// 关联矩阵形式
+	ofstream fout("tree.csv");
+	int** M = new int*[v];
+	for (int i = 0; i < v; i++)
+	{
+		M[i] = new int[v];
+		memset(M[i], 0, sizeof(int)*v);
+	}
 	for (int i = 0; i < v - 1; i++)
 	{
-		cout << "[" << T[i].first << " -> " << T[i].second << "]";
+		M[T[i].first][T[i].second] = 1;
+		M[T[i].second][T[i].first] = 1;
 	}
-	cout << " " << max << endl;
+	for (int i = 0; i < v; i++)
+	{
+		for (int j = 0; j < v; j++)
+		{
+			if (j == v - 1)
+			{
+				fout << M[i][j] << endl;
+			}
+			else
+			{
+				fout << M[i][j] << ",";
+			}
+		}
+	}
+		
 }
