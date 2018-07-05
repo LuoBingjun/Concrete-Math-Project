@@ -2,7 +2,7 @@ import csv
 import copy
 import eel, os, random
 
-eel.init('page')                     # Give folder containing web files
+eel.init('web')                     # Give folder containing web files
 
 class point:
     def __init__(self, id, value):
@@ -55,6 +55,6 @@ def shortest_path(n, m, filename):
         result+=(str(i)+" ")
     return result
 
-eel.start('shortest path.html')    # Start
+eel.start('index.html')    # Start
 
 
