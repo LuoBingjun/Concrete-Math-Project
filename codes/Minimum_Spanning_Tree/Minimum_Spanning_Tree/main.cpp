@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <set>
+#include <list>
 #include <utility>
 #include <omp.h>
 #include <assert.h>
@@ -29,6 +30,7 @@ int main()
 	std::set<int> used;
 	used.insert(0);
 	std::pair<int, int> *T = new pair<int, int>[v - 1];
+	list<int> edges;
 	long double max = 0;
 
 	for (int a = 0; a < v - 1; a++)
@@ -49,6 +51,7 @@ int main()
 					T[a].second = q[j];
 					maxd = r[j];
 					maxe = j;
+					edges.push_back(maxe);
 				}
 			}
 		}
@@ -82,5 +85,4 @@ int main()
 			}
 		}
 	}
-		
 }

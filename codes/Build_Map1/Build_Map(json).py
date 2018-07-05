@@ -1,61 +1,62 @@
 import csv
 import json
 
-file0 = open("movies.csv", "r")
+file0 = open("movie_data.csv", "r")
 data0 = list(csv.reader(file0))
-file1 = open("average.csv", "r")
-data1 = list(csv.reader(file1))
 
-for i in data1:
-    i[0] = int(i[0])
-    i[2] = float(i[2])
+name = []
+num = []
+for i in data0:
+    if(name.count(i[2])):
+        num[name.index(i[2])] += 1
+    else:
+        name.append(i[2])
+        num.append(1)
 
-# 生成Nodes
+users = []
 nodes = []
-for i in data0:
-    nodes.append({"ID": i[0], "影片": i[1], "导演": i[2], "编剧": i[3], "主演": i[4], "类型": i[5], "国家/地区": i[6], "语言": i[7], "上映日期": i[8]})
 
+# 初始化Nodes(用户)
+for i in range(len(name)):
+    if num[i] >= 60 or (num[i] >= 10 and num[i] <= 20):
+        nodes.append(
+            {"userID": len(nodes), "username": name[i], "movie name": [], "comment": []})
+        users.append(name[i])
+
+# 生成Nodes(用户)
 for i in data0:
-    i[0] = int(i[0])
-    i[2] = i[2].split(";")
-    i[3] = i[3].split(";")
-    i[4] = i[4].split(";")
-    i[5] = i[5].split(";")
-    i[6] = i[6].split(" / ")
-    i[7] = i[7].split(" / ")
+    if users.count(i[2]):
+        nodes[users.index(i[2])]["movie name"].append(i[1])
+        nodes[users.index(i[2])]["comment"].append(int(i[3]))
 
 links = []
-for i in range(len(data0)):
-    for j in range(i + 1, len(data1)):
-        if [v for v in data0[i][5] if v in data0[j][5]] == []:
+for i in nodes:
+    degree = 0
+    for j in nodes:
+        if i == j:
             continue
-        if abs(data1[i][2] - data1[j][2]) >= 2:
+        movies = [v for v in i["movie name"] if v in j["movie name"]]
+        if movies == []:
             continue
         value = 0
-        if data0[i][5] == data0[j][5]:
-            value += 0.75
+        for n in movies:
+            if abs(i["comment"][i["movie name"].index(n)]-j["comment"][j["movie name"].index(n)]) <= 1:
+                value += 0.05
+            else:
+                value -= 0.05
+        if value <= 0.3:
+            continue
         else:
-            value += 0.5
-        for k in range(2, 5):
-            if [v for v in data0[i][k] if v in data0[j][k]] == []:
-                continue
-            else:
-                if data0[i][k] != data0[j][k]:
-                    value += 0.02
-                else:
-                    value += 0.05
-        for k in range(6, 8):
-            if [v for v in data0[i][k] if v in data0[j][k]] == []:
-                continue
-            else:
-                if data0[i][k] != data0[j][k]:
-                    value += 0.02
-                else:
-                    value += 0.05
-        links.append({"ID": len(links), "source": i, "target": j, "value": value})
+            if value >= 1:
+                value = 1
+        links.append({"ID": len(links), "source": i["userID"],
+                      "target": i["userID"], "value": value})
+        degree += 1
+    i["degree"] = degree
 
-Map = {"nodes": nodes, "links": links}
+
+Map = {"nodes": nodes}
 
 json = json.dumps(Map)
-filejson = open("map.json", "w", encoding='gbk')
+filejson = open("map1.json", "w", encoding='gbk')
 filejson.write(json)

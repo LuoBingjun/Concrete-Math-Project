@@ -133,6 +133,7 @@
     </div>
 
     <script src="src/layui-v2.3.0/layui/layui.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript">
         //JavaScript代码区域
         layui.use(['element', 'form'], function () {
@@ -148,46 +149,35 @@
                 var end = parseInt(data.field.end);       //结束节点，数字ID
                 var type = parseInt(data.field.graphtype);    //图的选择：数字0代表电影为节点；数字1代表影评人为节点
 
+
                 //================================================
                 //在这里调用你的脚本，或添加算法运行代码，可以通过layer.alert()函数输出结果查看
-                closest_path(start, end, type, function (var1) {
-                    layer.alert(var1);
-                });
+                async function run(var1, var2, varname) {
+                    // Inside a function marked 'async' we can use the 'await' keyword.
 
+                    var n = await eel.shortest_path(var1, var2, varname)();    // Must prefix call with 'await', otherwise it's the same syntax
+                    layer.alert("最大关联度和对应路径分别为" + n, {
+                        title: '最终运算结果'  //弹出层标题
+                    })
+                }
+
+                if (type == 0) {
+                    run(start, end, "map0_forward_table.csv");
+                }
+                else {
+                    run(start, end, "map1_forward_table.csv");
+                }
                 //================================================
-
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终运算结果'  //弹出层标题
-                })
-                // return false;
+                /*
+                                layer.alert(JSON.stringify(data.field), {
+                                    title: '最终运算结果'  //弹出层标题
+                                })
+                                */
+                return false;
             });
 
 
         });
-        function closest_path(var1, var2, vartype, callback) {
-            var exec = require('child_process').exec;
-            if (vartype == 0) {
-                exec('python Shortest_Path.py map0_forward_table.csv ' + var1 + ' ' + var2, function (error, stdout, stderr) {
-                    if (stdout.length > 1) {
-                        callback(stdout);
-                    }
-                    if (error) {
-                        console.info('stderr : ' + stderr);
-                    }
-                });
-            }
-            else {
-                exec('python Shortest_Path.py map1_forward_table.csv' + var1 + ' ' + var2, function (error, stdout, stderr) {
-                    if (stdout.length > 1) {
-                        callback(stdout);
-                    }
-                    if (error) {
-                        console.info('stderr : ' + stderr);
-                    }
-                });
-            }
-
-        }
     </script>
 
 </body>

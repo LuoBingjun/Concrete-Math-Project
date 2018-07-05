@@ -26,7 +26,7 @@ for i in data0:
 
 links = []
 for i in range(len(data0)):
-    for j in range(i + 1, len(data1)):
+    for j in range(len(data1)):
         if [v for v in data0[i][5] if v in data0[j][5]] == []:
             continue
         if abs(data1[i][2] - data1[j][2]) >= 2:
@@ -52,7 +52,7 @@ for i in range(len(data0)):
                     value += 0.02
                 else:
                     value += 0.05
-        links.append({"ID": len(links), "source": i, "target": j, "value": value})
+        links.append({"source": i, "target": j, "value": value, "flags": 0})
 
 Map = {"nodes": nodes, "links": links}
 
