@@ -66,7 +66,8 @@
 
             node.append("title")
                 .text(function (d) {
-                    return "名称 : " + d.\u5f71\u7247;
+                    var text = "名称 : " + d.\u5f71\u7247 + " ，ID：" + d.ID;
+                    return text;
                 });
 
             link.append('textPath')

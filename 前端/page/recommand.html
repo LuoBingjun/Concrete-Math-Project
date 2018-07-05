@@ -65,21 +65,21 @@
                     <div class="layui-input-block">
                         <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入正确用户ID" class="layui-input">
                     </div>
-                </div> 
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择推荐方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="recommendstyle" value=0 title="推荐相似用户" checked="">
+                        <input type="radio" name="recommendstyle" value=1 title="推荐喜欢电影">
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="recommendbyuser">推荐相似用户</button>
-                        <button class="layui-btn" lay-submit="" lay-filter="recommendbymovie">推荐喜欢电影</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="recommend">推荐</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
             </form>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <iframe src="force graph1.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>
-
-                    </div>
-                </div>
         </div>
 
         <div class="layui-footer">
@@ -91,8 +91,31 @@
     <script src="src/layui-v2.3.0/layui/layui.js"></script>
     <script type="text/javascript">
         //JavaScript代码区域
-        layui.use('element', function () {
+        layui.use(['element', 'form'], function () {
             var element = layui.element;
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(recommend)', function (data) {
+
+                //数据初始化
+
+                var ID = parseInt(data.field.ID);    //用户节点，数字ID
+                var type = parseInt(data.field.graphtype);    //推荐方式的选择：数字0代表推荐相似用户；数字1代表推荐喜欢电影
+
+                //================================================
+                //在这里调用你的脚本，或添加算法运行代码，可以通过layer.alert()函数输出结果查看
+
+
+
+                //================================================
+
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终运算结果'  //弹出层标题
+                })
+                return false;
+            });
+
 
         });
     </script>
