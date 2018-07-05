@@ -5,7 +5,7 @@ import os
 import random
 import json
 
-eel.init('web')                     # Give folder containing web files
+eel.init('page')                     # Give folder containing web files
 
 
 class point:
@@ -41,7 +41,7 @@ def shortest_path(n, m, filename):
                     if pt[q[j]].value == 0:
                         pt[q[j]].value = p0.value*r[j]
                         pt[q[j]].path = copy.copy(p0.path)
-                        pt[q[j]].path.append(j)
+                        pt[q[j]].path.append(q[j])
                         stack.append(pt[q[j]])
                     if q[j] == m:
                         find = True
@@ -56,22 +56,28 @@ def shortest_path(n, m, filename):
     stack = [pt[n]]
     maxpath = BFS(stack)
 
-    result = str(pt[m].value)+' '
+    result = '两点间关联度为：'+str(pt[m].value)+'\n'
+    result += '对应关联度最大路径为：'+str(n)
     for i in maxpath:
-        result += (str(i)+" ")
+        result += (" -> "+str(i))
     return result
 
 # 推荐算法
 
 
+@eel.expose
 def recommand(ID, type, num):
     filename = ''
-    if type == 0:
+    if type == 1:
         filename = 'map0_forward_table.csv'
+        filename1 = 'map0.json'
     else:
         filename = 'map1_forward_table.csv'
+        filename1 = 'map1.json'
     file = open(filename, "r")
+    file1 = open(filename1, "r")
     data = list(csv.reader(file))
+    data1 = json.load(file1)
 
     p = [int(i) for i in data[0]]
     q = [int(i) for i in data[1]]
@@ -103,17 +109,24 @@ def recommand(ID, type, num):
     stack = [pt[ID]]
     points = BFS(stack)
     points.sort(key=lambda point: point.value, reverse=True)
-    result = ''
-    for i in range(num):
-        result += (str(points[i].id)+' ')
+    if type == 1:
+        result = '您选择的电影为：<br>'
+        result += (data1['nodes'][ID]['影片'] + '<br>')
+        result+='为您推荐的电影有：<br>'
+        for i in range(num):
+            result += (data1['nodes'][points[i].id]['影片'] + '<br>')
+    else:
+        result = '您选择的用户为：<br>'
+        result += (data1['nodes'][ID]['username'] + '<br>')
+        result+='为您推荐的用户有：<br>'
+        for i in range(num):
+            result += (data1['nodes'][points[i].id]['username'] + '<br>')
     return result
 
-recommand(312, 0, 10)
 
-
-web_app_options={
+web_app_options = {
     'mode': "chrome",
-    'port': 80,
+    'port': 8080,
     'chromeFlags': ["--start-fullscreen", "--browser-startup-dialog"]
 }
 
