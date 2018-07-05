@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+
 
     <title>建图：电影为节点，相似度为边</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -12,7 +12,7 @@
     <style>
         .links line {
             stroke: #999; /*路径*/
-            stroke-opacity: 3; /*边不透明度*/
+            stroke-opacity: 2; /*边不透明度*/
         }
 
         .nodes circle {
@@ -26,6 +26,8 @@
         //画布大小
         var width = 1300;
         var height = 600;
+        var sizeDivisor = 100, nodePadding = 2.5;
+
         //在 body 里添加一个 SVG 画布
         var svg = d3.select("body")
             .append("svg")
@@ -35,27 +37,32 @@
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
         var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink())
-            .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width / 2, height / 2));
+            .force("forceX", d3.forceX().strength(.1).x(width * .5))
+            .force("forceY", d3.forceY().strength(.1).y(height * .5))
+            .force("center", d3.forceCenter().x(width * .5).y(height * .5))
+            .force("charge", d3.forceManyBody().strength(-15));
 
-        d3.json("data/map.json", function (error, graph) {
+        d3.json("data/map_user.json", function (error, graph)  {
             if (error) throw error;
 
-            var link = svg.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(graph.links)
-                .enter().append("line")
-                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
+            simulation
+                .nodes(graph.nodes)
+                .force("collide", d3.forceCollide().strength(.5).radius(function (d) { return 1.45*Math.sqrt(d.degree + nodePadding); }).iterations(1))
+                .on("tick", function (d) {
+                    node
+                        .attr("cx", function (d) { return d.x; })
+                        .attr("cy", function (d) { return d.y; })
+                });
 
             var node = svg.append("g")
-                .attr("class", "nodes")
+                .attr("class", "node")
                 .selectAll("circle")
                 .data(graph.nodes)
                 .enter().append("circle")
-                .attr("r", function (d) { return 10; })
-                .attr("fill", function (d) { return color(parseInt(d.id)); })
+                .attr("r", function (d) { return 1.5*Math.sqrt(d.degree); })
+                .attr("fill", function (d, i) { return color(i); })
+                .attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; })
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
@@ -63,34 +70,14 @@
 
             node.append("title")
                 .text(function (d) {
-                    var text = "名称 : " + d.\u5f71\u7247 + " ，ID：" + d.ID;
+                    var text = "name：" + d.username;
                     return text;
                 });
-
-            simulation.nodes(graph.nodes)
-                .on("tick", ticked);
-            simulation.force("link")
-                .links(graph.links);
-
-            function ticked() {
-                if (simulation.alphaDecay() < 0.05) {
-                    link
-                        .attr("x1", function (d) { return d.source.x; })
-                        .attr("y1", function (d) { return d.source.y; })
-                        .attr("x2", function (d) { return d.target.x; })
-                        .attr("y2", function (d) { return d.target.y; });
-
-                    node
-                        .attr("cx", function (d) { return d.x; })
-                        .attr("cy", function (d) { return d.y; });
-                }
-                    
-            }
 
         });
 
         function dragstarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            if (!d3.event.active) simulation.alphaTarget(.03).restart();
             d.fx = d.x;
             d.fy = d.y;
         }
@@ -101,10 +88,19 @@
         }
 
         function dragended(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
+            if (!d3.event.active) simulation.alphaTarget(.03);
             d.fx = null;
             d.fy = null;
         }
+
+        function types(d) {
+            d.gdp = +d.gdp;
+            d.size = +d.gdp / sizeDivisor;
+            d.size < 3 ? d.radius = 3 : d.radius = d.size;
+            return d;
+        }
+
+     
     </script>
 
 

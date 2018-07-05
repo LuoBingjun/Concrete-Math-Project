@@ -38,7 +38,7 @@
                         <dl class="layui-nav-child">
                             <dd><a href="force graph show1.html">电影为节点</a></dd>
                             <dd><a href="force graph show2.html">影评人为节点</a></dd>
-                            <dd><a href="force graph show2.html">电影节点最小生成树</a></dd>
+                            <dd><a href="force graph show3.html">电影节点最小生成树</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
@@ -57,11 +57,36 @@
         <div class="layui-body" , lay-filter="graph">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>输入框</legend>
+            </fieldset>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">中心节点ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="start" lay-verify="title" autocomplete="off" placeholder="请输入正确ID" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">最大搜索层数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="end" lay-verify="title" autocomplete="off" placeholder="请输入层数，不超过三层" class="layui-input">
+                    </div>
+                </div>             
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="show">显示</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="show_all">原图</button>
+                    </div>
+                </div>
+            </form>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
                 <legend>建图效果</legend>
             </fieldset>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe src="force graph1.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>
+                    <iframe src="force graph1.html" scrolling="no" width="1200" height="600" frameborder="0" name="showpage"></iframe>
 
                 </div>
             </div>
@@ -76,9 +101,27 @@
     <script src="src/layui-v2.3.0/layui/layui.js"></script>
     <script type="text/javascript">
         //JavaScript代码区域
-        layui.use('element', function () {
+        layui.use(['element', 'form'], function () {
             var element = layui.element;
+            var form = layui.form;
+            //监听提交
+            form.on('submit(show)', function (data) {
 
+                //数据初始化
+
+                var ID = data.field.start;    //中心节点ID
+                var height = parseInt(data.field.end);       //搜索层数，数字ID
+
+                var iframeWin = window[layer.find('iframe')[0]['showpage']];
+                //执行iframe页的showMsg方法
+                iframeWin.draw(ID, height);
+
+                return false;
+            });
+            form.on('submit(show_all)', function () {
+                window.open("force_graph_All.html");
+                return false;
+            });
         });
     </script>
 

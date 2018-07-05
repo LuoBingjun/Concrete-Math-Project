@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+
+    <title>建图：电影为节点，相似度为边</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+</head>
+<body>
+    <style>
+        .links line {
+            stroke: #999; /*路径*/
+            stroke-opacity: 2; /*边不透明度*/
+        }
+
+        .nodes circle {
+            stroke: #fff; /*节点边框*/
+            stroke-width: 1.0px; /*边框大小*/
+        }
+    </style>
+
+    <script>
+        //======================力导向图=====================================================
+        //画布大小
+        var width = 1300;
+        var height = 600;
+        //在 body 里添加一个 SVG 画布
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        var simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().distance(100))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force('collide', d3.forceCollide().radius(() => 30))
+            .force("center", d3.forceCenter(width / 2, height / 2));
+
+        d3.json("data/mapofmovie.json", function (error, graph) {
+            if (error) throw error;
+
+            var link = svg.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(graph.links)
+                .enter().append("line");
+	.attr("stroke-width", function (d) { return 0.5; });
+
+
+
+            var node = svg.append("g")
+                .attr("class", "nodes")
+                .selectAll("circle")
+                .data(graph.nodes)
+                .enter().append("circle")
+                .attr("r", function (d) { return 7; })
+                .attr("fill", function (d, i) { return color(i); })
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            node.append("title")
+                .text(function (d) {
+                    var text = "名称 : " + d.\u5f71\u7247 + " ，ID：" + d.ID;
+                    return text;
+                });
+
+            link.append('textPath')
+                .text(function (d) { return d.value; });
+
+            simulation.nodes(graph.nodes)
+                .on("tick", ticked);
+            simulation.force("link")
+                .links(graph.links).distance(function (d) { return 150 * Math.sqrt(d.value); });
+
+            function ticked() {
+                if (simulation.alphaDecay() < 0.05) {
+                    link
+                        .attr("x1", function (d) { return d.source.x; })
+                        .attr("y1", function (d) { return d.source.y; })
+                        .attr("x2", function (d) { return d.target.x; })
+                        .attr("y2", function (d) { return d.target.y; });
+
+                    node
+                        .attr("cx", function (d) { return d.x; })
+                        .attr("cy", function (d) { return d.y; });
+                }
+
+            }
+
+        });
+
+        function dragstarted(d) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+        }
+
+        function dragended(d) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    </script>
+
+
+</body>
+</html>
