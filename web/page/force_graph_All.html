@@ -47,7 +47,7 @@
                 .attr("class", "links")
                 .selectAll("line")
                 .data(graph.links)
-                .enter().append("line");
+                .enter().append("line")
 	.attr("stroke-width", function (d) { return 0.5; });
 
 
