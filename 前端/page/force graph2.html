@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+
 
     <title>建图：电影为节点，相似度为边</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -12,7 +12,7 @@
     <style>
         .links line {
             stroke: #999; /*路径*/
-            stroke-opacity: 3; /*边不透明度*/
+            stroke-opacity: 2; /*边不透明度*/
         }
 
         .nodes circle {
@@ -35,11 +35,12 @@
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
         var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink())
-            .force("charge", d3.forceManyBody())
+            .force("link", d3.forceLink().distance(100))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force('collide', d3.forceCollide().radius(() => 30))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        d3.json("data/map.json", function (error, graph) {
+        d3.json("data/map(1).json", function (error, graph) {
             if (error) throw error;
 
             var link = svg.append("g")
@@ -47,15 +48,17 @@
                 .selectAll("line")
                 .data(graph.links)
                 .enter().append("line")
-                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
+                .attr("stroke-width", function (d) { return 5 * Math.sqrt(d.value); });
+
+
 
             var node = svg.append("g")
                 .attr("class", "nodes")
                 .selectAll("circle")
                 .data(graph.nodes)
                 .enter().append("circle")
-                .attr("r", function (d) { return 10; })
-                .attr("fill", function (d) { return color(parseInt(d.id)); })
+                .attr("r", function (d) { return 7; })
+                .attr("fill", function (d, i) { return color(i); })
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
@@ -67,10 +70,13 @@
                     return text;
                 });
 
+            link.append('textPath')
+                .text(function (d) { return d.value; });
+
             simulation.nodes(graph.nodes)
                 .on("tick", ticked);
             simulation.force("link")
-                .links(graph.links);
+                .links(graph.links).distance(function (d) { return 150 * Math.sqrt(d.value); });
 
             function ticked() {
                 if (simulation.alphaDecay() < 0.05) {
@@ -84,7 +90,7 @@
                         .attr("cx", function (d) { return d.x; })
                         .attr("cy", function (d) { return d.y; });
                 }
-                    
+
             }
 
         });
