@@ -56,7 +56,7 @@ def shortest_path(n, m, filename):
     stack = [pt[n]]
     maxpath = BFS(stack)
 
-    result = '两点间关联度为：'+str(pt[m].value)+'\n'
+    result = '两点间关联度为：'+str(pt[m].value)+'<br>'
     result += '对应关联度最大路径为：'+str(n)
     for i in maxpath:
         result += (" -> "+str(i))
