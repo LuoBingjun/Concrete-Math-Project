@@ -57,25 +57,36 @@
         <div class="layui-body" , lay-filter="graph">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>输入框</legend>
+                <legend>说明</legend>
+            </fieldset>
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">刷新显示按钮</div>
+                            <div class="layui-card-body">
+                                点击刷新显示可以重新建图，由于节点以及边的规模，此处的建图是摘取了原图中部分节点集
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">原图按钮</div>
+                            <div class="layui-card-body">
+                                点击原图可以查看所有节点的大图，由于渲染较慢，且边数很多，故作为弹出页面
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>操作集</legend>
             </fieldset>
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">中心节点ID</label>
                     <div class="layui-input-block">
-                        <input type="text" name="start" lay-verify="title" autocomplete="off" placeholder="请输入正确ID" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">最大搜索层数</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="end" lay-verify="title" autocomplete="off" placeholder="请输入层数，不超过三层" class="layui-input">
-                    </div>
-                </div>             
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="show">显示</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="show">刷新显示</button>
                         <button class="layui-btn" lay-submit="" lay-filter="show_all">原图</button>
                     </div>
                 </div>
@@ -86,7 +97,7 @@
             </fieldset>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe src="force graph1.html" scrolling="no" width="1200" height="600" frameborder="0" name="showpage"></iframe>
+                    <iframe src="force graph1.html" scrolling="no" width="1200" height=1000" frameborder="0" name="showpage"></iframe>
 
                 </div>
             </div>
@@ -105,19 +116,7 @@
             var element = layui.element;
             var form = layui.form;
             //监听提交
-            form.on('submit(show)', function (data) {
-
-                //数据初始化
-
-                var ID = data.field.start;    //中心节点ID
-                var height = parseInt(data.field.end);       //搜索层数，数字ID
-
-                var iframeWin = window[layer.find('iframe')[0]['showpage']];
-                //执行iframe页的showMsg方法
-                iframeWin.draw(ID, height);
-
-                return false;
-            });
+            
             form.on('submit(show_all)', function () {
                 window.open("force_graph_All.html");
                 return false;

@@ -42,7 +42,7 @@
             .force("center", d3.forceCenter().x(width * .5).y(height * .5))
             .force("charge", d3.forceManyBody().strength(-15));
 
-        d3.json("data/mapuser.json", function (error, graph)  {
+        d3.json("data/map_user.json", function (error, graph)  {
             if (error) throw error;
 
             simulation

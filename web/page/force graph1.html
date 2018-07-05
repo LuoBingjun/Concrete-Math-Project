@@ -25,7 +25,7 @@
         //======================力导向图=====================================================
         //画布大小
         var width = 1300;
-        var height = 600;
+        var height = 1000;
         //在 body 里添加一个 SVG 画布
         var svg = d3.select("body")
             .append("svg")
@@ -40,7 +40,7 @@
             .force('collide', d3.forceCollide().radius(() => 30))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        d3.json("data/map(1).json", function (error, graph) {
+        d3.json("data/smallmap.json", function (error, graph) {
             if (error) throw error;
 
             var link = svg.append("g")
@@ -48,7 +48,7 @@
                 .selectAll("line")
                 .data(graph.links)
                 .enter().append("line")
-                .attr("stroke-width", function (d) { return 5 * Math.sqrt(d.value); });
+                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
 
 
 

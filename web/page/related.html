@@ -57,35 +57,41 @@
         <div class="layui-body" , lay-filter="graph">
             <!-- 内容主体区域 -->
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>操作区</legend>
+                <legend>说明</legend>
             </fieldset>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">选择图</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="graphtype" value=0 title="电影" checked="">
-                        <input type="radio" name="graphtype" value=1 title="影评人">
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">生成树</div>
+                            <div class="layui-card-body">
+                                由于最小生成树无意义，转采用最大生成树<br>
+                                由于同时加载多张力导向图，建议通过拖拽加快收敛速度
+                            </div>
+                        </div>
                     </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-card">
+                            <div class="layui-card-header">中心度</div>
+                            <div class="layui-card-body">
+                                影评人为节点的图，通过每个节点中心度的大小实现了可视化显示
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
-
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="spantree">计算最小生成树</button>
-                    </div>
-                </div>
-            </form>
+            </div>
 
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                        <legend>参考图：电影为节点</legend>
+                        <legend>效果图：电影为节点生成树</legend>
                     </fieldset>
-                    <iframe src="force graph1.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>
+                    <iframe src="force graph3.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>
 
                     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                        <legend>参考图：影评人为节点</legend>
+                        <legend>效果图：影评人为节点中心度</legend>
                     </fieldset>
-                    <!--<iframe src="force graph2.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>-->
+                    <iframe src="force graph2.html" scrolling="no" width="1200" height="600" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
@@ -103,25 +109,6 @@
             var element = layui.element;
             var form = layui.form;
 
-            //监听提交
-            form.on('submit(spantree)', function (data) {
-
-                //数据初始化
-
-                var type = parseInt(data.field.graphtype);    //图的选择：数字0代表电影为节点；数字1代表影评人为节点
-
-                //================================================
-                //在这里调用你的脚本，或添加算法运行代码，可以通过layer.alert()函数输出结果查看
-
-
-
-                //================================================
-
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终运算结果'  //弹出层标题
-                })
-                return false;
-            });
 
 
         });
