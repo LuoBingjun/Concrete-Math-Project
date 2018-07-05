@@ -69,13 +69,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">最大搜索层数</label>
                     <div class="layui-input-block">
-                        <input type="text" name="end" lay-verify="title" autocomplete="off" placeholder="请输入正确ID" class="layui-input">
+                        <input type="text" name="end" lay-verify="title" autocomplete="off" placeholder="请输入层数，不超过三层" class="layui-input">
                     </div>
                 </div>             
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit="" lay-filter="show">显示</button>
                         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="show_all">原图</button>
                     </div>
                 </div>
             </form>
@@ -108,18 +109,19 @@
 
                 //数据初始化
 
-                var ID = parseInt(data.field.start);    //中心节点，数字ID
+                var ID = data.field.start;    //中心节点ID
                 var height = parseInt(data.field.end);       //搜索层数，数字ID
 
-                //================================================
-                //在这里调用你的脚本，或添加算法运行代码，可以通过layer.alert()函数输出结果查看
-               
+                var iframeWin = window[layer.find('iframe')[0]['showpage']];
+                //执行iframe页的showMsg方法
+                iframeWin.draw(ID, height);
 
-                //================================================
-                //刷新子页面
-                $(".clildFrame .layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload(true);
+                return false;
             });
-
+            form.on('submit(show_all)', function () {
+                window.open("force_graph_All.html");
+                return false;
+            });
         });
     </script>
 
