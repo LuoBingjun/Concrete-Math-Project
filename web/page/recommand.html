@@ -78,9 +78,9 @@
             </fieldset>
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">用户ID</label>
+                    <label class="layui-form-label">用户/电影ID</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入正确用户ID(非用户名)" class="layui-input">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入正确用户/电影ID" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -93,7 +93,7 @@
                     <label class="layui-form-label">选择推荐方式</label>
                     <div class="layui-input-block">
                         <input type="radio" name="recommendstyle" value=0 title="推荐相似用户" checked="">
-                        <input type="radio" name="recommendstyle" value=1 title="推荐喜欢电影">
+                        <input type="radio" name="recommendstyle" value=1 title="推荐相似电影">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -118,6 +118,7 @@
     </div>
 
     <script src="src/layui-v2.3.0/layui/layui.js"></script>
+    <script type="text/javascript" src="eel.js"></script>
     <script type="text/javascript">
         //JavaScript代码区域
         layui.use(['element', 'form'], function () {
@@ -138,7 +139,7 @@
                 async function run(varID, vartype, varnum) {
                     // Inside a function marked 'async' we can use the 'await' keyword.
                     var n = await eel.recommand(varID, vartype, varnum)();    // Must prefix call with 'await', otherwise it's the same syntax
-                    layer.alert("最大关联度和对应路径分别为" + n, {
+                    layer.alert(n, {
                         title: '最终运算结果'  //弹出层标题
                     })
                 }
