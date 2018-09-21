@@ -119,7 +119,7 @@ def recommand(ID, type, num):
         result = '您选择的用户为：<br>'
         result += (data1['nodes'][ID]['username'] + '<br>')
         result+='为您推荐的用户有：<br>'
-        for i in range(num):
+        for i in range(min(num, len(points))):
             result += (data1['nodes'][points[i].id]['username'] + '<br>')
     return result
 
